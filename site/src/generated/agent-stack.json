@@ -62,9 +62,9 @@
       "layer": "product",
       "kind": "product",
       "status": "proposed",
-      "definition": "The proposed product that control-plane converges into, where the operator manages agents, work, teams, auth and tools.",
-      "repository": null,
-      "github": null,
+      "definition": "The product control-plane converges into, where the operator manages agents, work, teams, auth and tools.",
+      "repository": "agency",
+      "github": "https://github.com/beyond10x/agency",
       "docs": null
     },
     {
@@ -338,7 +338,7 @@
       "from": "conductor",
       "to": "agency",
       "kind": "builds-on",
-      "label": "sits on top of Agency"
+      "label": "an application on Agency's API"
     },
     {
       "from": "agency",

@@ -43,9 +43,9 @@ nodes:
     layer: product
     kind: product
     status: proposed
-    definition: The proposed product that control-plane converges into, where the operator manages agents, work, teams, auth and tools.
-    repository: null
-    public: false
+    definition: The product control-plane converges into, where the operator manages agents, work, teams, auth and tools.
+    repository: agency
+    public: true
     docs: null
   - id: loom-coder
     label: loom-coder
@@ -266,7 +266,7 @@ edges:
   - from: conductor
     to: agency
     kind: builds-on
-    label: sits on top of Agency
+    label: an application on Agency's API
   - from: agency
     to: control-plane
     kind: contains

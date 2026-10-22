@@ -1,0 +1,19 @@
+[package]
+name = "agent-stack"
+description = "Validates stack.yaml and projects it into the b10x-agent-stack/v1 JSON the site reads."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "agent-stack"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+tempfile.workspace = true

@@ -1,0 +1,37 @@
+version: '3'
+
+env:
+  CARGO_TARGET_DIR: '{{.HOME}}/.cache/b10x-target/agent-stack'
+
+tasks:
+  default:
+    cmds: [{task: check}]
+
+  check:
+    desc: Hold the generated data to stack.yaml, then format, lint, test and build the site.
+    cmds:
+      - cargo fmt --all --check
+      - cargo clippy --workspace --all-targets --locked -- -D warnings
+      - cargo test --workspace --locked
+      - cargo run --locked -q -p agent-stack -- generate --check
+      - task: site
+
+  generate:
+    desc: Rewrite site/src/generated/agent-stack.json from stack.yaml.
+    cmds:
+      - cargo run --locked -q -p agent-stack -- generate
+
+  site:
+    desc: Install, check and build the site into site/dist.
+    dir: site
+    cmds:
+      - pnpm install --frozen-lockfile
+      - pnpm check
+      - pnpm build
+
+  preview:
+    desc: Build the site and serve site/dist on localhost.
+    dir: site
+    cmds:
+      - task: site
+      - pnpm preview --host 127.0.0.1 --port {{.PORT | default "4317"}} --strictPort

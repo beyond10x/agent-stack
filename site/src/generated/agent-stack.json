@@ -1,0 +1,520 @@
+{
+  "schema": "b10x-agent-stack/v1",
+  "layers": [
+    {
+      "id": "product",
+      "rank": 6,
+      "name": "Product",
+      "summary": "A deployment where one operator runs mixed teams of agents on real work."
+    },
+    {
+      "id": "app",
+      "rank": 5,
+      "name": "Application",
+      "summary": "An end-to-end use of the stack, built on loom-sdk."
+    },
+    {
+      "id": "L3",
+      "rank": 4,
+      "name": "Agent runtime",
+      "summary": "Opens a case on a protocol, governs it and invokes effects; calls llm for decisions and metaharness for agent work."
+    },
+    {
+      "id": "L2",
+      "rank": 3,
+      "name": "Meta-harness",
+      "summary": "Starts any harness behind one event stream and one command set, and records every session as trace-ir/1."
+    },
+    {
+      "id": "L1",
+      "rank": 2,
+      "name": "Harness",
+      "summary": "The agent loop and its tools: turns, prompt assembly, tool round trips, compaction, budgets and approvals."
+    },
+    {
+      "id": "L0",
+      "rank": 1,
+      "name": "Model call",
+      "summary": "One turn in, one turn out: provider wires, credentials, routes, usage and cost."
+    },
+    {
+      "id": "provider",
+      "rank": 0,
+      "name": "Model providers",
+      "summary": "Hosted and self-hosted model endpoints, outside beyond10x."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "operator",
+      "label": "Operator",
+      "layer": "product",
+      "kind": "actor",
+      "status": "active",
+      "definition": "The person who gives the stack an intent or a story and runs teams of agents on real work.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "agency",
+      "label": "Agency",
+      "layer": "product",
+      "kind": "product",
+      "status": "proposed",
+      "definition": "The proposed product joining conductor and control-plane, a deployment whose one API service runs agents through Loom.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "conductor",
+      "label": "conductor",
+      "layer": "product",
+      "kind": "repository",
+      "status": "active",
+      "definition": "Coordinates Claude Code sessions across an organization's repositories, starting one controller session per repository.",
+      "repository": "conductor",
+      "github": "https://github.com/beyond10x/conductor",
+      "docs": null
+    },
+    {
+      "id": "control-plane",
+      "label": "control-plane",
+      "layer": "product",
+      "kind": "repository",
+      "status": "paused",
+      "definition": "A local workspace service for goals, plans, implementation assignments and verified merge receipts, now paused.",
+      "repository": "control-plane",
+      "github": "https://github.com/beyond10x/control-plane",
+      "docs": null
+    },
+    {
+      "id": "takt",
+      "label": "takt",
+      "layer": "app",
+      "kind": "repository",
+      "status": "active",
+      "definition": "Delivers stories on loom-sdk and counts nothing done until a validator records evidence bound to a commit.",
+      "repository": "takt",
+      "github": "https://github.com/beyond10x/takt",
+      "docs": null
+    },
+    {
+      "id": "b10x-loom",
+      "label": "b10x-loom",
+      "layer": "app",
+      "kind": "repository",
+      "status": "active",
+      "definition": "Loom's command line and plugins, an application built on loom-sdk.",
+      "repository": "loom",
+      "github": "https://github.com/beyond10x/loom",
+      "docs": null
+    },
+    {
+      "id": "swarm",
+      "label": "swarm",
+      "layer": "app",
+      "kind": "repository",
+      "status": "paused",
+      "definition": "A goal loop that drives Claude Code through metaharness directly, without Loom, and is frozen.",
+      "repository": "swarm",
+      "github": "https://github.com/beyond10x/swarm",
+      "docs": null
+    },
+    {
+      "id": "loom",
+      "label": "Loom",
+      "layer": "L3",
+      "kind": "repository",
+      "status": "active",
+      "definition": "The agent runtime, which opens a case on a protocol and lets a model act only through the actions the case admits.",
+      "repository": "loom",
+      "github": "https://github.com/beyond10x/loom",
+      "docs": null
+    },
+    {
+      "id": "loom-sdk",
+      "label": "loom-sdk",
+      "layer": "L3",
+      "kind": "library",
+      "status": "active",
+      "definition": "Loom's library, on which applications run their cases with Commission's runtime and Loom's governor.",
+      "repository": "loom",
+      "github": "https://github.com/beyond10x/loom",
+      "docs": null
+    },
+    {
+      "id": "commission",
+      "label": "Commission",
+      "layer": "L3",
+      "kind": "library",
+      "status": "active",
+      "definition": "Loom's case runtime: case, frontier and authority, which rechecks each proposed action and invokes its effect.",
+      "repository": "loom",
+      "github": "https://github.com/beyond10x/loom",
+      "docs": null
+    },
+    {
+      "id": "metaharness",
+      "label": "metaharness",
+      "layer": "L2",
+      "kind": "repository",
+      "status": "active",
+      "definition": "Starts any harness behind one event stream and one command set, and allows, denies or rewrites each tool call.",
+      "repository": "metaharness",
+      "github": "https://github.com/beyond10x/metaharness",
+      "docs": "/metaharness/"
+    },
+    {
+      "id": "harness",
+      "label": "harness",
+      "layer": "L1",
+      "kind": "repository",
+      "status": "active",
+      "definition": "The in-house agent loop: turns, prompt assembly, tool round trips, compaction, session and transcript, budgets and approvals.",
+      "repository": "harness",
+      "github": "https://github.com/beyond10x/harness",
+      "docs": "/docs/harness/"
+    },
+    {
+      "id": "claude-code",
+      "label": "Claude Code",
+      "layer": "L1",
+      "kind": "vendor",
+      "status": "active",
+      "definition": "A vendor harness that metaharness drives and that calls Anthropic's Messages API.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "codex",
+      "label": "Codex",
+      "layer": "L1",
+      "kind": "vendor",
+      "status": "active",
+      "definition": "A vendor harness that metaharness drives and that calls OpenAI's Responses API.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "pi",
+      "label": "Pi",
+      "layer": "L1",
+      "kind": "vendor",
+      "status": "active",
+      "definition": "A vendor harness that metaharness drives through the same protocol as Claude Code and Codex.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "opencode",
+      "label": "OpenCode",
+      "layer": "L1",
+      "kind": "vendor",
+      "status": "active",
+      "definition": "A vendor harness that metaharness drives through the same protocol as Claude Code and Codex.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "tools",
+      "label": "tools",
+      "layer": "L1",
+      "kind": "repository",
+      "status": "active",
+      "definition": "Tool contracts and their default implementations, which harness takes its tools from.",
+      "repository": "tools",
+      "github": "https://github.com/beyond10x/tools",
+      "docs": null
+    },
+    {
+      "id": "llm",
+      "label": "llm",
+      "layer": "L0",
+      "kind": "repository",
+      "status": "active",
+      "definition": "One turn in, one turn out: provider wires, credentials, routes, usage and cost, and not an agent loop.",
+      "repository": "llm",
+      "github": "https://github.com/beyond10x/llm",
+      "docs": "/llm/"
+    },
+    {
+      "id": "inference",
+      "label": "inference",
+      "layer": "L0",
+      "kind": "repository",
+      "status": "active",
+      "definition": "Composes speech-to-text, language models and text-to-speech into streaming graphs, its language model node wrapping llm.",
+      "repository": "inference",
+      "github": "https://github.com/beyond10x/inference",
+      "docs": null
+    },
+    {
+      "id": "llm-gateway",
+      "label": "llm-gateway",
+      "layer": "L0",
+      "kind": "repository",
+      "status": "active",
+      "definition": "The serving side of llm, through which self-hosted models are served.",
+      "repository": "llm-gateway",
+      "github": "https://github.com/beyond10x/llm-gateway",
+      "docs": null
+    },
+    {
+      "id": "anthropic",
+      "label": "Anthropic",
+      "layer": "provider",
+      "kind": "provider",
+      "status": "active",
+      "definition": "A hosted model provider reached over the Messages API.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "openai",
+      "label": "OpenAI",
+      "layer": "provider",
+      "kind": "provider",
+      "status": "active",
+      "definition": "A hosted model provider reached over the Responses API.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "self-hosted",
+      "label": "self-hosted",
+      "layer": "provider",
+      "kind": "provider",
+      "status": "active",
+      "definition": "Self-hosted model endpoints such as vLLM, served through llm-gateway.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    }
+  ],
+  "edges": [
+    {
+      "from": "operator",
+      "to": "takt",
+      "kind": "drives",
+      "label": "gives an intent or a story"
+    },
+    {
+      "from": "operator",
+      "to": "agency",
+      "kind": "drives",
+      "label": "runs mixed teams of agents"
+    },
+    {
+      "from": "agency",
+      "to": "conductor",
+      "kind": "contains",
+      "label": "converges into one product"
+    },
+    {
+      "from": "agency",
+      "to": "control-plane",
+      "kind": "contains",
+      "label": "converges into one product"
+    },
+    {
+      "from": "agency",
+      "to": "loom-sdk",
+      "kind": "builds-on",
+      "label": "runs agents through Loom"
+    },
+    {
+      "from": "conductor",
+      "to": "claude-code",
+      "kind": "drives",
+      "label": "coordinates sessions across repositories"
+    },
+    {
+      "from": "takt",
+      "to": "loom",
+      "kind": "calls",
+      "label": "opens a case on a protocol"
+    },
+    {
+      "from": "takt",
+      "to": "loom-sdk",
+      "kind": "builds-on",
+      "label": "depends on loom-sdk"
+    },
+    {
+      "from": "b10x-loom",
+      "to": "loom",
+      "kind": "calls",
+      "label": "runs on Loom"
+    },
+    {
+      "from": "swarm",
+      "to": "metaharness",
+      "kind": "calls",
+      "label": "metaharness run claude, without Loom"
+    },
+    {
+      "from": "loom",
+      "to": "loom-sdk",
+      "kind": "contains",
+      "label": "its library"
+    },
+    {
+      "from": "loom",
+      "to": "commission",
+      "kind": "contains",
+      "label": "case, frontier, authority, effects"
+    },
+    {
+      "from": "loom",
+      "to": "llm",
+      "kind": "calls",
+      "label": "one structured call: classify, select, arguments"
+    },
+    {
+      "from": "loom",
+      "to": "metaharness",
+      "kind": "calls",
+      "label": "runs agent work as a session in a scratch copy"
+    },
+    {
+      "from": "metaharness",
+      "to": "harness",
+      "kind": "drives",
+      "label": "starts and steers the session"
+    },
+    {
+      "from": "metaharness",
+      "to": "claude-code",
+      "kind": "drives",
+      "label": "starts and steers the session"
+    },
+    {
+      "from": "metaharness",
+      "to": "codex",
+      "kind": "drives",
+      "label": "starts and steers the session"
+    },
+    {
+      "from": "metaharness",
+      "to": "pi",
+      "kind": "drives",
+      "label": "starts and steers the session"
+    },
+    {
+      "from": "metaharness",
+      "to": "opencode",
+      "kind": "drives",
+      "label": "starts and steers the session"
+    },
+    {
+      "from": "harness",
+      "to": "tools",
+      "kind": "builds-on",
+      "label": "takes its tools from tools"
+    },
+    {
+      "from": "harness",
+      "to": "llm",
+      "kind": "builds-on",
+      "label": "makes each model turn through llm"
+    },
+    {
+      "from": "claude-code",
+      "to": "anthropic",
+      "kind": "calls",
+      "label": "Messages API"
+    },
+    {
+      "from": "codex",
+      "to": "openai",
+      "kind": "calls",
+      "label": "Responses API"
+    },
+    {
+      "from": "inference",
+      "to": "llm",
+      "kind": "builds-on",
+      "label": "inference-llm wraps llm_core::Model"
+    },
+    {
+      "from": "llm",
+      "to": "anthropic",
+      "kind": "calls",
+      "label": "Messages API"
+    },
+    {
+      "from": "llm",
+      "to": "openai",
+      "kind": "calls",
+      "label": "Responses API"
+    },
+    {
+      "from": "llm",
+      "to": "self-hosted",
+      "kind": "calls",
+      "label": "self-hosted endpoint"
+    },
+    {
+      "from": "llm-gateway",
+      "to": "self-hosted",
+      "kind": "calls",
+      "label": "serves self-hosted models"
+    }
+  ],
+  "flows": [
+    {
+      "id": "agent-work",
+      "label": "A story from the operator down to a model provider",
+      "steps": [
+        "operator",
+        "takt",
+        "loom",
+        "metaharness",
+        "harness",
+        "llm",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "loom-decision",
+      "label": "Loom's own short decision, straight to llm",
+      "steps": [
+        "operator",
+        "takt",
+        "loom",
+        "llm",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "vendor-session",
+      "label": "Agent work in a vendor harness",
+      "steps": [
+        "operator",
+        "takt",
+        "loom",
+        "metaharness",
+        "claude-code",
+        "anthropic"
+      ]
+    },
+    {
+      "id": "swarm-today",
+      "label": "swarm's path today, without Loom",
+      "steps": [
+        "swarm",
+        "metaharness",
+        "claude-code",
+        "anthropic"
+      ]
+    }
+  ]
+}

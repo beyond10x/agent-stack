@@ -22,6 +22,15 @@ onMounted(() => {
 onBeforeUnmount(() => query?.removeEventListener('change', onMotion));
 
 const strata = computed(() => (props.stack ? layersTopDown(props.stack) : []));
+const members = computed(() => {
+  const byLayer = new Map<string, string[]>();
+  const contained = new Set((props.stack?.edges ?? []).filter((edge) => edge.kind === 'contains').map((edge) => edge.to));
+  for (const node of props.stack?.nodes ?? []) {
+    if (node.kind === 'actor' || contained.has(node.id)) continue;
+    byLayer.set(node.layer, [...(byLayer.get(node.layer) ?? []), node.label]);
+  }
+  return byLayer;
+});
 </script>
 
 <template>
@@ -35,7 +44,10 @@ const strata = computed(() => (props.stack ? layersTopDown(props.stack) : []));
       <h1>The agent stack</h1>
       <p class="subtitle">One owner per layer, from the model call to the product.</p>
       <ol class="plates" aria-label="Layers, top to bottom">
-        <li v-for="(layer, index) in strata" :key="layer.id" :style="{ '--i': index, '--n': strata.length }">{{ layer.name }}</li>
+        <li v-for="(layer, index) in strata" :key="layer.id" :style="{ '--i': index, '--n': strata.length }">
+          <span class="plate-name">{{ layer.name }}</span>
+          <span class="plate-members">{{ (members.get(layer.id) ?? []).join(' · ') }}</span>
+        </li>
       </ol>
       <span v-if="!reducedMotion" class="cue" aria-hidden="true">Scroll to build it <span>↓</span></span>
     </header>

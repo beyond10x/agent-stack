@@ -5,13 +5,13 @@
       "id": "product",
       "rank": 6,
       "name": "Product",
-      "summary": "A deployment where one operator runs mixed teams of agents on real work."
+      "summary": "What a person uses on top of the stack; four products since ADR 0106."
     },
     {
       "id": "app",
       "rank": 5,
       "name": "Application",
-      "summary": "An end-to-end use of the stack, built on loom-sdk."
+      "summary": "An end-to-end use of the stack; ADR 0096 has applications build on loom-sdk."
     },
     {
       "id": "L3",
@@ -62,15 +62,48 @@
       "layer": "product",
       "kind": "product",
       "status": "proposed",
-      "definition": "The proposed product joining conductor and control-plane, a deployment whose one API service runs agents through Loom.",
+      "definition": "The proposed product that control-plane converges into, where the operator manages agents, work, teams, auth and tools.",
       "repository": null,
       "github": null,
       "docs": null
     },
     {
+      "id": "loom-coder",
+      "label": "loom-coder",
+      "layer": "product",
+      "kind": "product",
+      "status": "proposed",
+      "definition": "A Loom-based coding agent with a command line and a web version, whose repository is not yet known.",
+      "repository": null,
+      "github": null,
+      "docs": null
+    },
+    {
+      "id": "swarm",
+      "label": "swarm",
+      "layer": "product",
+      "kind": "repository",
+      "status": "paused",
+      "definition": "A goal loop that drives Claude Code through metaharness directly, without Loom, and is frozen.",
+      "repository": "swarm",
+      "github": "https://github.com/beyond10x/swarm",
+      "docs": null
+    },
+    {
+      "id": "agentide",
+      "label": "agentide",
+      "layer": "product",
+      "kind": "repository",
+      "status": "active",
+      "definition": "A local coding workbench where humans and agents share one durable session.",
+      "repository": "agentide",
+      "github": "https://github.com/beyond10x/agentide",
+      "docs": null
+    },
+    {
       "id": "conductor",
       "label": "conductor",
-      "layer": "product",
+      "layer": "app",
       "kind": "repository",
       "status": "active",
       "definition": "Coordinates Claude Code sessions across an organization's repositories, starting one controller session per repository.",
@@ -109,17 +142,6 @@
       "definition": "Loom's command line and plugins, an application built on loom-sdk.",
       "repository": "loom",
       "github": "https://github.com/beyond10x/loom",
-      "docs": null
-    },
-    {
-      "id": "swarm",
-      "label": "swarm",
-      "layer": "app",
-      "kind": "repository",
-      "status": "paused",
-      "definition": "A goal loop that drives Claude Code through metaharness directly, without Loom, and is frozen.",
-      "repository": "swarm",
-      "github": "https://github.com/beyond10x/swarm",
       "docs": null
     },
     {
@@ -313,10 +335,10 @@
       "label": "runs mixed teams of agents"
     },
     {
-      "from": "agency",
-      "to": "conductor",
-      "kind": "contains",
-      "label": "converges into one product"
+      "from": "conductor",
+      "to": "agency",
+      "kind": "builds-on",
+      "label": "sits on top of Agency"
     },
     {
       "from": "agency",
@@ -359,6 +381,12 @@
       "to": "metaharness",
       "kind": "calls",
       "label": "metaharness run claude, without Loom"
+    },
+    {
+      "from": "agentide",
+      "to": "harness",
+      "kind": "builds-on",
+      "label": "builds on harness today"
     },
     {
       "from": "loom",

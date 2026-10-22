@@ -16,6 +16,7 @@ pub const GITHUB_ORGANIZATION: &str = "https://github.com/beyond10x";
 pub const SITE_SCHEMA: &str = "b10x-project-site/v1";
 pub const SITE_REPOSITORY: &str = "agent-stack";
 pub const SITE_BASE_URL: &str = "/agent-stack/";
+pub const ROUTES_SCHEMA: &str = "b10x-project-routes/v1";
 const DEFINITION_LIMIT: usize = 160;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
@@ -422,7 +423,16 @@ pub fn site_manifest(commit: &str) -> Result<String> {
     ))
 }
 
-/// Write `<site>/.well-known/b10x-site.json` and `<site>/.nojekyll` into a built site.
+/// The `b10x-project-routes/v1` inventory for the same commit: the one page, which has no anchors.
+pub fn routes_manifest(commit: &str) -> Result<String> {
+    site_manifest(commit)?;
+    Ok(format!(
+        "{{\n  \"schema\": \"{ROUTES_SCHEMA}\",\n  \"repository\": \"{SITE_REPOSITORY}\",\n  \"commit\": \"{commit}\",\n  \"baseUrl\": \"{SITE_BASE_URL}\",\n  \"routes\": [\n    {{\n      \"path\": \"{SITE_BASE_URL}\",\n      \"anchors\": []\n    }}\n  ]\n}}\n"
+    ))
+}
+
+/// Write `<site>/.well-known/b10x-site.json`, `<site>/.well-known/b10x-routes.json` and
+/// `<site>/.nojekyll` into a built site.
 pub fn write_provenance(site: &Path, commit: &str) -> Result<()> {
     let manifest = site_manifest(commit)?;
     if !site.join("index.html").is_file() {
@@ -434,6 +444,11 @@ pub fn write_provenance(site: &Path, commit: &str) -> Result<()> {
     let well_known = site.join(".well-known");
     fs::create_dir_all(&well_known).with_context(|| format!("create {}", well_known.display()))?;
     fs::write(well_known.join("b10x-site.json"), manifest).context("write site provenance")?;
+    fs::write(
+        well_known.join("b10x-routes.json"),
+        routes_manifest(commit)?,
+    )
+    .context("write route inventory")?;
     fs::write(site.join(".nojekyll"), "").context("write .nojekyll")?;
     Ok(())
 }
@@ -709,5 +724,14 @@ flows:
         assert_eq!(manifest["commit"], commit);
         assert_eq!(manifest["baseUrl"], "/agent-stack/");
         assert!(site.path().join(".nojekyll").is_file());
+        let routes: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(site.path().join(".well-known/b10x-routes.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(routes["schema"], "b10x-project-routes/v1");
+        assert_eq!(routes["commit"], commit);
+        assert_eq!(routes["baseUrl"], "/agent-stack/");
+        assert_eq!(routes["routes"][0]["path"], "/agent-stack/");
+        assert_eq!(routes["routes"][0]["anchors"], serde_json::json!([]));
     }
 }

@@ -24,7 +24,7 @@ enum Command {
         #[arg(long)]
         check: bool,
     },
-    /// Write <site>/.well-known/b10x-site.json for a built site.
+    /// Write <site>/.well-known/b10x-site.json and b10x-routes.json for a built site.
     Provenance {
         /// Built site directory holding index.html.
         #[arg(long)]
@@ -49,10 +49,9 @@ fn main() -> Result<()> {
         }
         Command::Provenance { site, commit } => {
             agent_stack::write_provenance(&site, &commit)?;
-            println!(
-                "written: {}",
-                site.join(".well-known/b10x-site.json").display()
-            );
+            for file in ["b10x-site.json", "b10x-routes.json"] {
+                println!("written: {}", site.join(".well-known").join(file).display());
+            }
         }
     }
     Ok(())

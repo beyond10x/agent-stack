@@ -35,7 +35,7 @@
       "id": "L0",
       "rank": 1,
       "name": "Model call",
-      "summary": "One turn in, one turn out: provider wires, credentials, routes, usage and cost."
+      "summary": "One turn in, one turn out: provider wires, credential presentation (custody and OAuth2 refresh in Connectors, ADR 0107), routes, usage and cost."
     },
     {
       "id": "provider",
@@ -62,7 +62,7 @@
       "layer": "product",
       "kind": "product",
       "status": "proposed",
-      "definition": "The product control-plane converges into, where the operator manages agents, work, teams, auth and tools.",
+      "definition": "The product control-plane converges into, where the operator manages agents, work, teams, auth and tools, each definition holding a loom.agent/1 spec by value.",
       "repository": "agency",
       "github": "https://github.com/beyond10x/agency",
       "docs": null
@@ -150,7 +150,7 @@
       "layer": "L3",
       "kind": "repository",
       "status": "active",
-      "definition": "The agent runtime, which opens a case on a protocol and lets a model act only through the actions the case admits.",
+      "definition": "The agent runtime and owner of the loom.agent/1 spec, which opens a case on a protocol, admits only the case's actions and serves A2A where a spec exposes it.",
       "repository": "loom",
       "github": "https://github.com/beyond10x/loom",
       "docs": null
@@ -176,6 +176,17 @@
       "repository": "loom",
       "github": "https://github.com/beyond10x/loom",
       "docs": null
+    },
+    {
+      "id": "a2a",
+      "label": "a2a",
+      "layer": "L3",
+      "kind": "library",
+      "status": "active",
+      "definition": "The A2A protocol contract as an ESS specification and the crate generated from it, a library Loom's host serves agents through and not a layer.",
+      "repository": "a2a",
+      "github": "https://github.com/beyond10x/a2a",
+      "docs": "/a2a/"
     },
     {
       "id": "metaharness",
@@ -260,7 +271,7 @@
       "layer": "L0",
       "kind": "repository",
       "status": "active",
-      "definition": "One turn in, one turn out: provider wires, credentials, routes, usage and cost, and not an agent loop.",
+      "definition": "One turn in, one turn out: provider wires, credential presentation, routes, usage and cost, and not an agent loop.",
       "repository": "llm",
       "github": "https://github.com/beyond10x/llm",
       "docs": "/llm/"
@@ -399,6 +410,12 @@
       "to": "commission",
       "kind": "contains",
       "label": "case, frontier, authority, effects"
+    },
+    {
+      "from": "loom",
+      "to": "a2a",
+      "kind": "builds-on",
+      "label": "serves a spec's expose.a2a through b10x-loom-a2a"
     },
     {
       "from": "loom",

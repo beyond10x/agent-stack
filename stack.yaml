@@ -23,7 +23,7 @@ layers:
   - id: L0
     rank: 1
     name: Model call
-    summary: "One turn in, one turn out: provider wires, credentials, routes, usage and cost."
+    summary: "One turn in, one turn out: provider wires, credential presentation (custody and OAuth2 refresh in Connectors, ADR 0107), routes, usage and cost."
   - id: provider
     rank: 0
     name: Model providers
@@ -43,7 +43,7 @@ nodes:
     layer: product
     kind: product
     status: proposed
-    definition: The product control-plane converges into, where the operator manages agents, work, teams, auth and tools.
+    definition: The product control-plane converges into, where the operator manages agents, work, teams, auth and tools, each definition holding a loom.agent/1 spec by value.
     repository: agency
     public: true
     docs: null
@@ -115,7 +115,7 @@ nodes:
     layer: L3
     kind: repository
     status: active
-    definition: The agent runtime, which opens a case on a protocol and lets a model act only through the actions the case admits.
+    definition: The agent runtime and owner of the loom.agent/1 spec, which opens a case on a protocol, admits only the case's actions and serves A2A where a spec exposes it.
     repository: loom
     public: true
     docs: null
@@ -137,6 +137,15 @@ nodes:
     repository: loom
     public: true
     docs: null
+  - id: a2a
+    label: a2a
+    layer: L3
+    kind: library
+    status: active
+    definition: The A2A protocol contract as an ESS specification and the crate generated from it, a library Loom's host serves agents through and not a layer.
+    repository: a2a
+    public: true
+    docs: /a2a/
   - id: metaharness
     label: metaharness
     layer: L2
@@ -205,7 +214,7 @@ nodes:
     layer: L0
     kind: repository
     status: active
-    definition: "One turn in, one turn out: provider wires, credentials, routes, usage and cost, and not an agent loop."
+    definition: "One turn in, one turn out: provider wires, credential presentation, routes, usage and cost, and not an agent loop."
     repository: llm
     public: true
     docs: /llm/
@@ -307,6 +316,10 @@ edges:
     to: commission
     kind: contains
     label: case, frontier, authority, effects
+  - from: loom
+    to: a2a
+    kind: builds-on
+    label: serves a spec's expose.a2a through b10x-loom-a2a
   - from: loom
     to: llm
     kind: calls

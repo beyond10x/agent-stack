@@ -15,6 +15,9 @@ The objectives of the collection this repository moves, by id from `atlas/ROADMA
 
 A change here that moves none of these is a question for the operator, not a task.
 
+A component's own `## Serves` lives in its repository's `AGENTS.md`, where Atlas `check-map`
+reads it. This repository keeps no copy of another component's section.
+
 ## Layout
 
 | Path | What it is | Who writes it |

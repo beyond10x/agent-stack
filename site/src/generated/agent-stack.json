@@ -189,6 +189,17 @@
       "docs": "/a2a/"
     },
     {
+      "id": "substrate",
+      "label": "substrate",
+      "layer": "L3",
+      "kind": "repository",
+      "status": "active",
+      "definition": "The execution data plane, which runs commands in confined workspaces as bounded processes and sessions and reports what it observed.",
+      "repository": "substrate",
+      "github": "https://github.com/beyond10x/substrate",
+      "docs": "/substrate/"
+    },
+    {
       "id": "metaharness",
       "label": "metaharness",
       "layer": "L2",
@@ -416,6 +427,12 @@
       "to": "a2a",
       "kind": "builds-on",
       "label": "serves a spec's expose.a2a through b10x-loom-a2a"
+    },
+    {
+      "from": "loom",
+      "to": "substrate",
+      "kind": "builds-on",
+      "label": "embeds substrate-host to confine child processes"
     },
     {
       "from": "loom",
